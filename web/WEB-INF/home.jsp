@@ -14,7 +14,12 @@
     <body>
         <h1>Home Page</h1>
         
-        <h3></h3>
-        <a href=""></a>
+        <h3>Welcome : ${username}</h3>
+        
+       
+            
+             <a href="./login" name="action" value="Logout">LogOut</a>
+     
+       
     </body>
 </html>

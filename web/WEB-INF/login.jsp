@@ -15,12 +15,17 @@
         <h1>Login</h1>
         
         <form method="post" action="home" >
-            <label><strong> Username:  </label><input type="text" name="username" required><br>  
+            
+            <label><strong> Username:  </label><input type="text" name="username" value="${username}"><br>  
                 <br> 
-            <label><strong> Password:  </label><input type="text" name="password" required><br>  
+            <label><strong> Password:  </label><input type="password" name="password"  value="${passsword}"><br>  
                 
             <input type="submit" value="Log in">  
             
         </form>
+        
+        <p> ${error}</p><br>
+        <h3>${logoutMessage}</h3>
+       
     </body>
 </html>

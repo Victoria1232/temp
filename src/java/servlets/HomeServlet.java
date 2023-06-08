@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.User;
 
 /**
  *
@@ -21,10 +23,13 @@ public class HomeServlet extends HttpServlet {
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
        
-       
-  
-       
-       
+        HttpSession session = request.getSession();
+     
+        User user = (User) session.getAttribute("user");
+        
+    
+        request.setAttribute("username", user.getUserName());
+        
         
         
         getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response); // use / before WEB
@@ -40,16 +45,20 @@ public class HomeServlet extends HttpServlet {
   
        /*PARAMITERS*/
  
-        // get path 
-        //String path = getServletContext().getRealPath("/WEB-INF/note.txt");
-       
-        //String newTitle = request.getParameter("title");
-       // String newContents = request.getParameter("contents");
+         String action = request.getParameter("action"); 
+           
+        HttpSession session = request.getSession();
         
-      
-        
+       if (action != null && action.equals("Logout"))  {
+           
+           session.invalidate();
+           
+           session = request.getSession();
+            request.setAttribute("error", "invalid username or passsword");
+           
+       }
 
-        
+
        
     
          getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
