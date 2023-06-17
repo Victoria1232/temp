@@ -25,14 +25,30 @@ public class LoginServlet extends HttpServlet {
    @Override // displays login form , responsible for loging out the user 
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  // on start up
        
-       
+               
         
-        
+          HttpSession session = request.getSession();
+          String logout = request.getParameter("logout"); 
+          String username = (String) session.getAttribute("username"); 
+          
+     
+          
+      
+             if (logout != null) {
 
-                 
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); // use / before WEB
-    
-    
+              request.setAttribute("logoutMessage", "You have been logged out");
+              session.invalidate();
+              session = request.getSession();
+             
+              getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); // use / before WEB
+              return;
+
+        }
+
+             
+            
+    getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); // use / before WEB
+    return;
         
        
    }
@@ -44,35 +60,38 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
    
+        AccountService  acount = new AccountService();
+        User newUser;
+        HttpSession session = request.getSession();
         
-        if (username == null || password == null || username.equals("") || password.equals("")) {
+        // if username or password is not null 
+        if (username != null && password != null)  {
             
-                     request.setAttribute("username", username);
-                     request.setAttribute("password", password);
-                     request.setAttribute("error", "invalid username or passsword");
-                     getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-                    return;
+              // call login method 
+          User user =  acount.login(username, password ); 
+                 // if username is abe or barb send them to the home page , the nset attribute user name to username 
+                 if (user.getUserName().equals("abe") || user.getUserName().equals("barb"))  {
+              
+                    session.setAttribute("username", username);
+                    
+                    request.setAttribute("username" , username);
+                    // redirect to home page 
+                  getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
+               
+                    // add - /home to MyLogin
+             }
+                 
+        }
+        else { // ellse throw error 
+              request.setAttribute("error", "invalid username or passsword");
+             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+             return; 
         }
         
-   
-                 AccountService  acount = new AccountService();
-          
-                 User user =  acount.userLogin(username, password); 
+            
+              
+               
         
-                 HttpSession session = request.getSession();
-        
-                  
-                    session.setAttribute("user", user);
-                    
-                    request.setAttribute("username", username);
-                    request.setAttribute("password", password);
-        
- 
-       
-    
-         getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-         
-   
       
         
    }

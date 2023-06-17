@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package servlets;
 
 import java.io.IOException;
@@ -24,17 +20,24 @@ public class HomeServlet extends HttpServlet {
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
        
         HttpSession session = request.getSession();
-     
-        User user = (User) session.getAttribute("user");
+         String username = (String) session.getAttribute("username");
+        
+        if (username != null)  {
+            
+             request.setAttribute("username", username);
+             getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response); // use / before WEB
+             return;
+        }
+        else {
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); // use / before WEB
+        return;
+        }
+       
         
     
-        request.setAttribute("username", user.getUserName());
+       
         
-        
-        
-        getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response); // use / before WEB
-    
-    
+   
        
    }
    
@@ -45,23 +48,11 @@ public class HomeServlet extends HttpServlet {
   
        /*PARAMITERS*/
  
-         String action = request.getParameter("action"); 
-           
-        HttpSession session = request.getSession();
-        
-       if (action != null && action.equals("Logout"))  {
-           
-           session.invalidate();
-           
-           session = request.getSession();
-            request.setAttribute("error", "invalid username or passsword");
-           
-       }
-
 
        
     
          getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
+         return;
          
    
       

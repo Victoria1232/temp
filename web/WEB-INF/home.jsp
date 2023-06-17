@@ -18,7 +18,7 @@
         
        
             
-             <a href="./login" name="action" value="Logout">LogOut</a>
+             <a href="login?logout" >LogOut</a>
      
        
     </body>
