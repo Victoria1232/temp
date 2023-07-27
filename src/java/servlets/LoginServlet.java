@@ -17,7 +17,7 @@ import models.User;
 
 /**
  * Description handles all authentication and creation/ destruction of sessions 
- * @author mfgperez
+ * @author Victo
  */
 public class LoginServlet extends HttpServlet {
 
