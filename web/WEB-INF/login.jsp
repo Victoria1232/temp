@@ -1,7 +1,7 @@
 <%-- 
     Document   : LogIn
     Created on : Jun 8, 2023, 11:58:25 AM
-    Author     : mfgperez
+    Author     : Victo
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
